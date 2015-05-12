@@ -3,9 +3,9 @@ package com.recruitiva.demo.web;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.recruitiva.demo.entity.Category;
@@ -23,8 +23,8 @@ public class CategoryController {
         return localWarehouse.categories();
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.GET)
-    Category add(@RequestParam String name) {
-        return localWarehouse.add(name);
+    @RequestMapping(method = RequestMethod.POST)
+    Category save(@RequestBody Category category) {
+        return localWarehouse.saveCategory(category);
     }
 }

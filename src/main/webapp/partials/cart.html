@@ -1,0 +1,18 @@
+<div class="page-header">
+    <h1>Twój koszyk</h1>
+</div>
+<div class="row">
+    <div class="col-md-12" ng-if="cartInfo.count==0">
+        <alert type="warning"> Twój koszyk jest pusty </alert>
+    </div>
+    <div class="col-md-6" ng-repeat="item in cartInfo.articles">
+        <h2>{{item.article.name}}</h2>
+        <h3>{{item.article.category.name}}</h3>
+        <p>Cena: {{item.article.price | currency}}</p>
+        <p>Ilość: {{item.quantity}}</p>
+        <p>Wartość: {{item.price | currency}}</p>
+        <p>
+            <button class="btn btn-sm btn-danger" ng-click="removeFromCart(item.article)">Usuń z koszyka</button>
+        </p>
+    </div>
+</div>
