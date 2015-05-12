@@ -1,0 +1,10 @@
+target
+.settings
+.project
+.classpath
+*.db
+dependency-reduced-pom.xml
+bin
+*~
+*tlog
+
