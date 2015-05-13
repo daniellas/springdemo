@@ -1,8 +1,5 @@
 package com.recruitiva.demo.config;
 
-import javax.persistence.EntityManagerFactory;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -15,9 +12,6 @@ import org.springframework.web.servlet.view.InternalResourceViewResolver;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.recruitiva.demo.web")
 public class WebConfig extends WebMvcConfigurerAdapter {
-
-    @Autowired
-    private EntityManagerFactory emf;
 
     @Override
     public void configureDefaultServletHandling(DefaultServletHandlerConfigurer configurer) {

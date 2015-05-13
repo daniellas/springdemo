@@ -35,18 +35,14 @@
                 </div>
                 <div class="collapse navbar-collapse" collapse="!collapse">
                     <ul class="nav navbar-nav">
-                        <li><a href="#/cat-add" ng-if="isAdmin()">Dodaj kategorię</a></li>
-                        <li><a href="#/art-add" ng-if="isAdmin()">Dodaj artykuł</a></li>
-                        <li><a href="#/orders" ng-if="isAdmin()">Zamówienia</a></li>
+                        <li><a href="#/cat-add">Dodaj kategorię</a></li>
+                        <li><a href="#/art-add">Dodaj artykuł</a></li>
+                        <li><a href="#/orders">Zamówienia</a></li>
                         <li><a href="#/cart">Koszyk</a></li>
                     </ul>
                     <p class="navbar-text navbar-left">
                         <label>Twój koszyk:</label> Ilość: {{cartInfo.quantity}}, Wartość: {{cartInfo.value | currency}}
                     </p>
-                    <form class="navbar-form navbar-right">
-                        <a href="login" class="btn btn-default btn-sm" ng-if="!isAdmin()">Zaloguj</a> <a href="logout"
-                            class="btn btn-warning btn-sm" ng-if="isAdmin()">Wyloguj {{currentUser.username}}</a>
-                    </form>
                 </div>
             </div>
         </nav>

@@ -12,10 +12,6 @@ app.factory('CartSrv', function($resource) {
     return $resource('cart');
 });
 
-app.factory('SecuritySrv', function($resource) {
-    return $resource('security');
-});
-
 app.factory('OrderSrv', function($resource) {
     return $resource('orders');
 });
@@ -46,11 +42,7 @@ app.controller('RoutingCtrl', function($rootScope) {
     $rootScope.$broadcast('route.update');
 });
 
-app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, CartSrv, SecuritySrv, OrderSrv) {
-
-    SecuritySrv.get(function(response) {
-        $scope.currentUser = response;
-    });
+app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, CartSrv, OrderSrv) {
 
     CategorySrv.query(function(response) {
         $scope.categories = response;
@@ -127,20 +119,6 @@ app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, C
         }, function(response) {
             showError(response);
         });
-    }
-
-    $scope.isAdmin = function() {
-        if ($scope.currentUser && $scope.currentUser.authorities) {
-            var authorities = $scope.currentUser.authorities;
-
-            for (var i = 0; i < authorities.length; i++) {
-                if (authorities[i].authority == 'ROLE_ADMIN') {
-                    return true;
-                }
-            }
-        }
-
-        return false;
     }
 
     $scope.$on('route.update', function() {
