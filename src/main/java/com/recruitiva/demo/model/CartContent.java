@@ -4,12 +4,12 @@ import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
-public class CartInfo {
+public class CartContent {
     BigDecimal value = BigDecimal.ZERO;
-    long count;
+    long quantity;
     Map<Long, CartItem> articles = new HashMap<Long, CartItem>();
 
-    public CartInfo() {
+    public CartContent() {
         value.setScale(2);
     }
 
@@ -21,12 +21,12 @@ public class CartInfo {
         this.value = value;
     }
 
-    public long getCount() {
-        return count;
+    public long getQuantity() {
+        return quantity;
     }
 
-    public void setCount(long count) {
-        this.count = count;
+    public void setQuantity(long quantity) {
+        this.quantity = quantity;
     }
 
     public Map<Long, CartItem> getArticles() {

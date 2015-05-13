@@ -3,9 +3,14 @@ package com.recruitiva.demo.web;
 import java.io.IOException;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
+import org.springframework.mail.MailSendException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -14,10 +19,14 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class ControlllerExceptionHandler {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(ControlllerExceptionHandler.class);
+
     @ExceptionHandler(value = ConstraintViolationException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
     public void validationException(ConstraintViolationException e, HttpServletResponse resp) throws IOException {
-        String message = e.getConstraintViolations().iterator().next().getMessage();
+        ConstraintViolation<?> violation = e.getConstraintViolations().iterator().next();
+        LOGGER.error("Validation error: {}", violation);
+        String message = violation.getMessage();
 
         resp.setHeader("X-ErrMsg", message);
     }
@@ -27,4 +36,17 @@ public class ControlllerExceptionHandler {
     public void accessException(HttpServletResponse resp) {
         resp.setHeader("X-ErrMsg", "Access denied");
     }
+
+    @ExceptionHandler(value = DataIntegrityViolationException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)
+    public void dataIntegrityException(HttpServletResponse resp) {
+        resp.setHeader("X-ErrMsg", "Pozycja istnieje");
+    }
+
+    @ExceptionHandler(value = MailSendException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    public void mailSendException(MailSendException e, HttpServletResponse resp) {
+        resp.setHeader("X-ErrMsg", e.getMessage());
+    }
+
 }

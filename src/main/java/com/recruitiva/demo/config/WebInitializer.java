@@ -3,16 +3,15 @@ package com.recruitiva.demo.config;
 import java.nio.charset.StandardCharsets;
 
 import javax.servlet.Filter;
-import javax.servlet.ServletRegistration;
 
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class WebInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[] { AppConfig.class, SecurityConfig.class };
+        return new Class[] { ShopConfig.class, SecurityConfig.class };
     }
 
     @Override
@@ -35,9 +34,4 @@ public class WebAppInitializer extends AbstractAnnotationConfigDispatcherServlet
         return new Filter[] { characterEncodingFilter };
     }
 
-    @Override
-    protected void customizeRegistration(ServletRegistration.Dynamic registration) {
-        registration.setInitParameter("dispatchOptionsRequest", "true");
-        registration.setAsyncSupported(true);
-    }
 }

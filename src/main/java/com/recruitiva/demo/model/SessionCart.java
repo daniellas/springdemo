@@ -16,7 +16,7 @@ public class SessionCart implements Cart {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(SessionCart.class);
 
-    CartInfo info = new CartInfo();
+    CartContent content = new CartContent();
 
     @Autowired
     ArticleRepository articleRepo;
@@ -27,40 +27,40 @@ public class SessionCart implements Cart {
     }
 
     @Override
-    public CartInfo getInfo() {
-        return info;
+    public CartContent getContent() {
+        return content;
     }
 
     @Override
-    public CartInfo addArticle(Article article) {
+    public CartContent addArticle(Article article) {
         Long articleId = article.getId();
 
-        if (info.getArticles().containsKey(articleId)) {
-            CartItem item = info.getArticles().get(articleId);
+        if (content.getArticles().containsKey(articleId)) {
+            CartItem item = content.getArticles().get(articleId);
 
             item.quantity++;
-            item.setPrice(article.getPrice().multiply(new BigDecimal(item.getQuantity())));
+            item.setValue(article.getPrice().multiply(new BigDecimal(item.getQuantity())));
         } else {
             CartItem item = new CartItem();
 
             item.setArticle(article);
             item.setQuantity(1l);
-            item.setPrice(article.getPrice());
+            item.setValue(article.getPrice());
 
-            info.getArticles().put(articleId, item);
+            content.getArticles().put(articleId, item);
         }
 
         recalculate();
 
-        return info;
+        return content;
     }
 
     @Override
-    public CartInfo removeArticle(Long id) {
-        info.getArticles().remove(id);
+    public CartContent removeArticle(Long id) {
+        content.getArticles().remove(id);
         recalculate();
 
-        return info;
+        return content;
     }
 
     private void recalculate() {
@@ -68,13 +68,21 @@ public class SessionCart implements Cart {
         Long count = 0l;
 
         totalValue.setScale(2);
-        for (Map.Entry<Long, CartItem> item : info.getArticles().entrySet())
+        for (Map.Entry<Long, CartItem> item : content.getArticles().entrySet())
         {
-            totalValue = totalValue.add(item.getValue().getPrice());
+            totalValue = totalValue.add(item.getValue().getValue());
             count += item.getValue().getQuantity();
         }
 
-        info.setValue(totalValue);
-        info.setCount(count);
+        content.setValue(totalValue);
+        content.setQuantity(count);
+    }
+
+    @Override
+    public CartContent purge() {
+        content.getArticles().clear();
+        recalculate();
+        
+        return content;
     }
 }

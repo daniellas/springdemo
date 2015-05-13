@@ -7,9 +7,11 @@ import com.recruitiva.demo.entity.Article;
 @Transactional
 public interface Cart {
 
-    CartInfo getInfo();
+    CartContent getContent();
 
-    CartInfo addArticle(Article article);
+    CartContent addArticle(Article article);
     
-    CartInfo removeArticle(Long id);
+    CartContent removeArticle(Long id);
+    
+    CartContent purge();
 }

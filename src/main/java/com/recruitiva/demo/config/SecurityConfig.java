@@ -30,7 +30,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable();
         http.authorizeRequests().antMatchers("/**").permitAll().anyRequest().authenticated().and().formLogin();
-        http.logout().logoutSuccessUrl("/");
+        http.logout().logoutSuccessUrl("/").invalidateHttpSession(false);
         http.exceptionHandling().accessDeniedHandler(new CustomAccessDeniedHandler());
     }
 
@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         @Override
         public void handle(HttpServletRequest request, HttpServletResponse response,
                 AccessDeniedException accessDeniedException) throws IOException, ServletException {
-             response.setStatus(HttpStatus.FORBIDDEN.value());
+            response.setStatus(HttpStatus.FORBIDDEN.value());
         }
 
     }

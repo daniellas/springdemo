@@ -7,7 +7,7 @@ import com.recruitiva.demo.entity.Article;
 public class CartItem {
     Article article;
     long quantity;
-    BigDecimal price;
+    BigDecimal value;
 
     public Article getArticle() {
         return article;
@@ -25,11 +25,11 @@ public class CartItem {
         this.quantity = quantity;
     }
 
-    public BigDecimal getPrice() {
-        return price;
+    public BigDecimal getValue() {
+        return value;
     }
 
-    public void setPrice(BigDecimal price) {
-        this.price = price;
+    public void setValue(BigDecimal value) {
+        this.value = value;
     }
 }

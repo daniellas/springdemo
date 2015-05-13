@@ -16,21 +16,37 @@ app.factory('SecuritySrv', function($resource) {
     return $resource('security');
 });
 
+app.factory('OrderSrv', function($resource) {
+    return $resource('orders');
+});
+
 app.config(function($routeProvider) {
     $routeProvider.when('/', {
-        templateUrl : 'partials/index.html'
+        templateUrl : 'partials/index.html',
+        controller : 'RoutingCtrl'
     }).when('/cat-add', {
-        templateUrl : 'partials/cat-add.html'
+        templateUrl : 'partials/cat-add.html',
+        controller : 'RoutingCtrl'
     }).when('/art-add', {
-        templateUrl : 'partials/art-add.html'
+        templateUrl : 'partials/art-add.html',
+        controller : 'RoutingCtrl'
     }).when('/cart', {
-        templateUrl : 'partials/cart.html'
+        templateUrl : 'partials/cart.html',
+        controller : 'RoutingCtrl'
+    }).when('/orders', {
+        templateUrl : 'partials/orders.html',
+        controller : 'RoutingCtrl'
     }).otherwise({
-        templateUrl : 'partials/index.html'
+        templateUrl : 'partials/index.html',
+        controller : 'RoutingCtrl'
     });
 });
 
-app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, CartSrv, SecuritySrv) {
+app.controller('RoutingCtrl', function($rootScope) {
+    $rootScope.$broadcast('route.update');
+});
+
+app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, CartSrv, SecuritySrv, OrderSrv) {
 
     SecuritySrv.get(function(response) {
         $scope.currentUser = response;
@@ -54,7 +70,7 @@ app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, C
                 $scope.categories = response;
             });
         }, function(response) {
-            alert('Wystąpił błąd: ' + response.headers('X-ErrMsg'));
+            showError(response);
         });
     }
 
@@ -64,7 +80,7 @@ app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, C
                 $scope.articles = response;
             });
         }, function(response) {
-            alert('Wystąpił błąd: ' + response.headers('X-ErrMsg'));
+            showError(response);
         });
     }
 
@@ -73,7 +89,7 @@ app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, C
             $scope.articles = response;
             $location.path('/');
         }, function(response) {
-            alert('Wystąpił błąd: ' + response.headers('X-ErrMsg'));
+            showError(response);
         });
     }
 
@@ -82,7 +98,7 @@ app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, C
             $scope.articles = response;
             $location.path('/');
         }, function(response) {
-            alert('Wystąpił błąd: ' + response.headers('X-ErrMsg'));
+            showError(response);
         });
     }
 
@@ -90,7 +106,7 @@ app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, C
         CartSrv.save(article, function(response) {
             $scope.cartInfo = response;
         }, function(response) {
-            alert('Wystąpił błąd: ' + response.headers('X-ErrMsg'));
+            showError(response);
         });
     }
 
@@ -100,7 +116,16 @@ app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, C
         }, function(response) {
             $scope.cartInfo = response;
         }, function(response) {
-            alert('Wystąpił błąd: ' + response.headers('X-ErrMsg'));
+            showError(response);
+        });
+    }
+
+    $scope.acceptOrder = function(order) {
+        OrderSrv.save(order, function(response) {
+            $scope.cartInfo = response;
+            alert('Twoje zamówienie zostało przyjęte');
+        }, function(response) {
+            showError(response);
         });
     }
 
@@ -116,5 +141,53 @@ app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, C
         }
 
         return false;
+    }
+
+    $scope.$on('route.update', function() {
+        if ($scope.collapse) {
+            $scope.collapse = !$scope.collapse;
+        }
+    });
+
+    function showError(response) {
+        if (response.headers('X-ErrMsg')) {
+            alert('Wystąpił błąd: ' + response.headers('X-ErrMsg'));
+        } else {
+            alert('Wystąpił błąd');
+        }
+    }
+});
+
+app.controller('OrderCtrl', function($scope, OrderSrv) {
+    OrderSrv.query(function(response) {
+        $scope.orders = response;
+    }, function(response) {
+        alert('Wystąpił błąd: ' + response.headers('X-ErrMsg'));
+    });
+
+    $scope.selectOrder = function(order) {
+        $scope.orderDetails = order;
+    }
+});
+
+app.directive('btrValidation', function() {
+    return {
+        restrict : 'A',
+        require : 'ngModel',
+        link : function(scope, el, attrs, inputCtrl) {
+            var parentEl = el.parent();
+            do {
+                if (parentEl.hasClass('form-group')) {
+                    scope.$watch(function() {
+                        return inputCtrl.$valid;
+                    }, function() {
+                        parentEl.toggleClass('has-error', inputCtrl.$invalid);
+                        parentEl.toggleClass('has-success', inputCtrl.$valid);
+                    });
+                    break;
+                }
+                parentEl = parentEl.parent();
+            } while (parentEl.length > 0);
+        }
     }
 });

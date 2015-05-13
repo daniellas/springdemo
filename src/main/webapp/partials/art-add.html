@@ -3,17 +3,16 @@
 </div>
 <form>
     <div class="form-group">
-    <label>Kategoria</label>
-        <select  class="form-control" ng-model="article.category"
-            ng-options="cat.name for cat in categories track by cat.id">
+        <label class="control-label">Kategoria</label> <select class="form-control" ng-model="article.category"
+            ng-options="cat.name for cat in categories track by cat.id" btr-validation required>
             <option></option>
         </select>
     </div>
     <div class="form-group">
-        <label>Nazwa</label> <input ng-model="article.name" class="form-control">
+        <label class="control-label">Nazwa</label> <input ng-model="article.name" class="form-control" btr-validation required>
     </div>
     <div class="form-group">
-        <label>Cena</label> <input ng-model="article.price" class="form-control">
+        <label class="control-label">Cena</label> <input ng-model="article.price" class="form-control" btr-validation required>
     </div>
     <button class="btn btn-success" ng-click="saveArticle(article)">Zapisz</button>
 </form>

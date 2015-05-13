@@ -2,7 +2,10 @@
     <h1>Nasze towary</h1>
 </div>
 <div class="row">
-    <div class="col-md-6" ng-repeat="art in articles">
+    <div class="col-md-12" ng-if="articles.length==0">
+        <alert type="warning">Brak towarów</alert>
+    </div>
+    <div class="col-md-4" ng-repeat="art in articles">
         <h2>{{art.name}}</h2>
         <h3>{{art.category.name}}</h3>
         <p>Cena: {{art.price | currency}}</p>

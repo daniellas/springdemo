@@ -4,7 +4,7 @@
 
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
-            <Pattern>BOL %-5p %d{yy-MM-dd HH:mm:ss.SSS} [%X{loggingContextPath}]- %C{1} - %m%n
+            <Pattern>%-5p %d{yy-MM-dd HH:mm:ss.SSS} [%X{loggingContextPath}]- %C{1} - %m%n
             </Pattern>
         </layout>
     </appender>

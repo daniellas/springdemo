@@ -3,33 +3,28 @@ package com.recruitiva.demo.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 @Entity
-public class Article implements Serializable {
-
+public class OrderItem implements Serializable {
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     Long id;
 
-    @NotNull
-    @Size(min = 3, max = 255)
-    @Column(unique = true)
-    String name;
+    @ManyToOne(optional = false)
+    Article article;
+
+    Long quantity;
 
     BigDecimal price;
-
-    @ManyToOne(optional = false)
-    Category category;
+    
+    BigDecimal value;
 
     public Long getId() {
         return id;
@@ -39,12 +34,20 @@ public class Article implements Serializable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public Article getArticle() {
+        return article;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setArticle(Article article) {
+        this.article = article;
+    }
+
+    public Long getQuantity() {
+        return quantity;
+    }
+
+    public void setQuantity(Long quantity) {
+        this.quantity = quantity;
     }
 
     public BigDecimal getPrice() {
@@ -52,15 +55,14 @@ public class Article implements Serializable {
     }
 
     public void setPrice(BigDecimal price) {
-        this.price = price.setScale(2);
+        this.price = price;
     }
 
-    public Category getCategory() {
-        return category;
+    public BigDecimal getValue() {
+        return value;
     }
 
-    public void setCategory(Category category) {
-        this.category = category;
+    public void setValue(BigDecimal value) {
+        this.value = value;
     }
-
 }
