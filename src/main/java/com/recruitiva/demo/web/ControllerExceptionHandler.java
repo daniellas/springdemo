@@ -9,6 +9,7 @@ import javax.validation.ConstraintViolationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -26,6 +27,12 @@ public class ControllerExceptionHandler {
         String message = violation.getMessage();
 
         resp.setHeader("X-ErrMsg", message);
+    }
+
+    @ExceptionHandler(value = AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public void accessException(HttpServletResponse resp) {
+        resp.setHeader("X-ErrMsg", "Access denied");
     }
 
 }
