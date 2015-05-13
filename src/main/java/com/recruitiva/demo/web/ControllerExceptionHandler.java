@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ControllerAdvice
-public class ControlllerExceptionHandler {
+public class ControllerExceptionHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ControlllerExceptionHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ControllerExceptionHandler.class);
 
     @ExceptionHandler(value = ConstraintViolationException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
