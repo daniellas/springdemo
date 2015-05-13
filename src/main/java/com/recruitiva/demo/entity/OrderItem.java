@@ -1,21 +1,13 @@
 package com.recruitiva.demo.entity;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class OrderItem implements Serializable {
+public class OrderItem extends EntityBase {
     private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    Long id;
 
     @ManyToOne(optional = false)
     Article article;
@@ -25,14 +17,6 @@ public class OrderItem implements Serializable {
     BigDecimal price;
     
     BigDecimal value;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
 
     public Article getArticle() {
         return article;
