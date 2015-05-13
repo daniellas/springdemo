@@ -1,6 +1,7 @@
 package com.recruitiva.demo.config;
 
 import javax.sql.DataSource;
+import javax.validation.ValidatorFactory;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -14,6 +15,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 @Configuration
 @EnableTransactionManagement
@@ -55,6 +58,20 @@ public class ShopConfig {
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
 
         return factoryBean;
+    }
+
+    @Bean
+    public ValidatorFactory validatorFactory() {
+        return new LocalValidatorFactoryBean();
+    }
+
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        MethodValidationPostProcessor bean = new MethodValidationPostProcessor();
+
+        bean.setValidatorFactory(validatorFactory());
+
+        return bean;
     }
 
 }
