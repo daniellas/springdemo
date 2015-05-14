@@ -8,6 +8,8 @@ import liquibase.integration.spring.SpringLiquibase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Scope;
+import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -19,12 +21,21 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
 import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
+import org.springframework.web.context.WebApplicationContext;
+
+import com.recruitiva.demo.model.SessionCart;
 
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = { "com.recruitiva.demo.repository" })
 @ComponentScan(basePackages = { "com.recruitiva.demo.model" })
 public class ShopConfig {
+
+    @Bean
+    @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.INTERFACES)
+    public SessionCart cart() {
+        return new SessionCart();
+    }
 
     @Bean
     public DataSource dataSource() {

@@ -11,7 +11,7 @@ public class CartTest {
 
     @Test
     public void addSingleItemShouldSetQuantityAndValue() {
-        Cart cart = new DefaultCart();
+        Cart cart = new SessionCart();
         Article article = new Article();
 
         article.setId(1l);
@@ -25,7 +25,7 @@ public class CartTest {
 
     @Test
     public void addMultipleItemShouldSetQuantityAndValue() {
-        Cart cart = new DefaultCart();
+        Cart cart = new SessionCart();
         Article article = new Article();
 
         article.setId(1l);
@@ -45,7 +45,7 @@ public class CartTest {
 
     @Test
     public void addRemoveItemShouldSetQuantityAndValue() {
-        Cart cart = new DefaultCart();
+        Cart cart = new SessionCart();
         Article article = new Article();
 
         article.setId(1l);
@@ -66,7 +66,7 @@ public class CartTest {
 
     @Test
     public void purgeShouldSetZeroQuantityAndValue() {
-        Cart cart = new DefaultCart();
+        Cart cart = new SessionCart();
         Article article = new Article();
 
         article.setId(1l);

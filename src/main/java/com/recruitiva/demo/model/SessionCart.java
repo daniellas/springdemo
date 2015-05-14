@@ -8,15 +8,13 @@ import javax.annotation.PostConstruct;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.recruitiva.demo.entity.Article;
 import com.recruitiva.demo.repository.ArticleRepository;
 
-@Service
-public class DefaultCart implements Cart {
+public class SessionCart implements Cart {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCart.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(SessionCart.class);
 
     CartContent content = new CartContent();
 
