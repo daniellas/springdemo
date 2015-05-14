@@ -3,6 +3,8 @@ package com.recruitiva.demo.model;
 import java.util.List;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,4 +27,6 @@ public interface Warehouse {
 
     @Secured({ "ROLE_ADMIN" })
     Article saveArticle(@Valid Article article);
+
+    List<Article> search(@NotNull @Size(min = 2) String name);
 }
