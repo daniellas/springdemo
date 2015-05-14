@@ -4,15 +4,15 @@
 <form>
     <div class="form-group">
         <label class="control-label">Kategoria</label> <select class="form-control" ng-model="article.category"
-            ng-options="cat.name for cat in categories track by cat.id" btr-validation required>
+            ng-options="cat.name for cat in categories track by cat.id">
             <option></option>
         </select>
     </div>
     <div class="form-group">
-        <label class="control-label">Nazwa</label> <input ng-model="article.name" class="form-control" btr-validation required>
+        <label class="control-label">Nazwa</label> <input ng-model="article.name" class="form-control">
     </div>
     <div class="form-group">
-        <label class="control-label">Cena</label> <input ng-model="article.price" class="form-control" btr-validation required>
+        <label class="control-label">Cena</label> <input ng-model="article.price" class="form-control">
     </div>
     <button class="btn btn-success" ng-click="saveArticle(article)">Zapisz</button>
 </form>

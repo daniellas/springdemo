@@ -147,25 +147,3 @@ app.controller('OrderCtrl', function($scope, OrderSrv) {
         $scope.orderDetails = order;
     }
 });
-
-app.directive('btrValidation', function() {
-    return {
-        restrict : 'A',
-        require : 'ngModel',
-        link : function(scope, el, attrs, inputCtrl) {
-            var parentEl = el.parent();
-            do {
-                if (parentEl.hasClass('form-group')) {
-                    scope.$watch(function() {
-                        return inputCtrl.$valid;
-                    }, function() {
-                        parentEl.toggleClass('has-error', inputCtrl.$invalid);
-                        parentEl.toggleClass('has-success', inputCtrl.$valid);
-                    });
-                    break;
-                }
-                parentEl = parentEl.parent();
-            } while (parentEl.length > 0);
-        }
-    }
-});
