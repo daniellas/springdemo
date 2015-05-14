@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
@@ -26,6 +27,9 @@ public class DefaultSeller implements Seller {
 
     @Autowired
     OrderRepository orderRepo;
+
+    @Value("${shop.email}")
+    String shopEmail;
 
     @Override
     public CartContent acceptOrder(OrderData data) {
@@ -61,14 +65,14 @@ public class DefaultSeller implements Seller {
         SimpleMailMessage message = new SimpleMailMessage();
 
         message.setTo(data.getClientEmail());
-        message.setFrom("spring.demo.2015@gmail.com");
+        message.setFrom(shopEmail);
         message.setSubject("Twoje zamówienie");
         message.setText(orderDescription);
         mailSender.send(message);
 
         message = new SimpleMailMessage();
-        message.setTo("spring.demo.2015@gmail.com");
-        message.setFrom("spring.demo.2015@gmail.com");
+        message.setTo(shopEmail);
+        message.setFrom(shopEmail);
         message.setSubject("Nowe zamówienie");
         message.setText(orderDescription);
         mailSender.send(message);

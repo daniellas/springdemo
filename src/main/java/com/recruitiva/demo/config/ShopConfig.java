@@ -7,11 +7,14 @@ import javax.validation.ValidatorFactory;
 
 import liquibase.integration.spring.SpringLiquibase;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -33,7 +36,22 @@ import com.recruitiva.demo.model.SessionCart;
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = { "com.recruitiva.demo.repository" })
 @ComponentScan(basePackages = { "com.recruitiva.demo.model" })
+@PropertySource("classpath:shop.properties")
 public class ShopConfig {
+
+    @Value("${mail.debug}")
+    String mailDebug;
+
+    @Value("${shop.email}")
+    String shopEmail;
+
+    @Value("${shop.email.password}")
+    String shopEmailPassword;
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     @Bean
     @Scope(value = WebApplicationContext.SCOPE_SESSION, proxyMode = ScopedProxyMode.INTERFACES)
@@ -107,15 +125,15 @@ public class ShopConfig {
 
         sender.setHost("smtp.gmail.com");
         sender.setPort(25);
-        sender.setUsername("spring.demo.2015@gmail.com");
-        sender.setPassword("SPRING.DEMO");
+        sender.setUsername(shopEmail);
+        sender.setPassword(shopEmailPassword);
 
         Properties props = new Properties();
 
         props.put("mail.transport.protocol", "smtp");
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.debug", "true");
+        props.put("mail.debug", mailDebug);
 
         sender.setJavaMailProperties(props);
 
