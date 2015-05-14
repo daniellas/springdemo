@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.stereotype.Service;
 
 import com.recruitiva.demo.entity.OrderItem;
@@ -15,6 +17,9 @@ import com.recruitiva.demo.repository.OrderRepository;
 
 @Service
 public class DefaultSeller implements Seller {
+
+    @Autowired
+    MailSender mailSender;
 
     @Autowired
     Cart cart;
@@ -46,10 +51,57 @@ public class DefaultSeller implements Seller {
             order.getItems().add(orderItem);
         }
         orderRepo.save(order);
+        notify(data);
 
         return cart.purge();
     }
 
+    private void notify(OrderData data) {
+        String orderDescription = orderDescription(data, cart.getContent());
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        message.setTo(data.getClientEmail());
+        message.setFrom("spring.demo.2015@gmail.com");
+        message.setSubject("Twoje zamówienie");
+        message.setText(orderDescription);
+        mailSender.send(message);
+
+        message = new SimpleMailMessage();
+        message.setTo("spring.demo.2015@gmail.com");
+        message.setFrom("spring.demo.2015@gmail.com");
+        message.setSubject("Nowe zamówienie");
+        message.setText(orderDescription);
+        mailSender.send(message);
+    }
+
+    private String orderDescription(OrderData data, CartContent content) {
+        StringBuilder builder = new StringBuilder("Szczegóły zamówienia\n");
+
+        builder.append("Adres e-mail klienta: ");
+        builder.append(data.getClientEmail());
+        builder.append("\n");
+        builder.append("Adres dostawy: ");
+        builder.append(data.getAddress());
+        builder.append("\n\n");
+        builder.append("Towary");
+        builder.append("\n");
+        for (CartItem item : content.getArticles().values()) {
+            builder.append(item.getArticle().getName());
+            builder.append(",ilość: ");
+            builder.append(item.getQuantity());
+            builder.append(",cena: ");
+            builder.append(item.getArticle().getPrice());
+            builder.append(",wartość: ");
+            builder.append(item.getValue());
+            builder.append("\n");
+        }
+        builder.append("Razem: ilość: ");
+        builder.append(content.getQuantity());
+        builder.append(", wartość: ");
+        builder.append(content.getValue());
+
+        return builder.toString();
+    }
 
     @Override
     public List<ShopOrder> orders() {

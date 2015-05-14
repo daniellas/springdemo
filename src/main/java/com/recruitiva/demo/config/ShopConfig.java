@@ -1,5 +1,7 @@
 package com.recruitiva.demo.config;
 
+import java.util.Properties;
+
 import javax.sql.DataSource;
 import javax.validation.ValidatorFactory;
 
@@ -13,6 +15,8 @@ import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.mail.MailSender;
+import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
@@ -95,6 +99,27 @@ public class ShopConfig {
         bean.setChangeLog("classpath:db-changelog.xml");
 
         return bean;
+    }
+
+    @Bean
+    public MailSender mailSender() {
+        JavaMailSenderImpl sender = new JavaMailSenderImpl();
+
+        sender.setHost("smtp.gmail.com");
+        sender.setPort(25);
+        sender.setUsername("spring.demo.2015@gmail.com");
+        sender.setPassword("SPRING.DEMO");
+
+        Properties props = new Properties();
+
+        props.put("mail.transport.protocol", "smtp");
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.debug", "true");
+
+        sender.setJavaMailProperties(props);
+
+        return sender;
     }
 
 }
