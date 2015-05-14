@@ -1,12 +1,15 @@
 package com.recruitiva.demo.config;
 
 import javax.sql.DataSource;
+import javax.validation.ValidatorFactory;
 
 import liquibase.integration.spring.SpringLiquibase;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
@@ -16,6 +19,8 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.Database;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.validation.beanvalidation.LocalValidatorFactoryBean;
+import org.springframework.validation.beanvalidation.MethodValidationPostProcessor;
 
 @Configuration
 @EnableTransactionManagement
@@ -23,6 +28,19 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 @ComponentScan(basePackages = { "com.recruitiva.demo.model" })
 public class ShopConfig {
 
+    @Value("${mail.debug}")
+    String mailDebug;
+
+    @Value("${shop.email}")
+    String shopEmail;
+
+    @Value("${shop.email.password}")
+    String shopEmailPassword;
+
+    @Bean
+    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
+        return new PropertySourcesPlaceholderConfigurer();
+    }
 
     @Bean
     public DataSource dataSource() {
@@ -60,6 +78,19 @@ public class ShopConfig {
         return factoryBean;
     }
 
+    @Bean
+    public ValidatorFactory validatorFactory() {
+        return new LocalValidatorFactoryBean();
+    }
+
+    @Bean
+    public MethodValidationPostProcessor methodValidationPostProcessor() {
+        MethodValidationPostProcessor bean = new MethodValidationPostProcessor();
+
+        bean.setValidatorFactory(validatorFactory());
+
+        return bean;
+    }
 
     @Bean
     public SpringLiquibase liquibase() {
