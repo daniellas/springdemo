@@ -1,16 +1,10 @@
 package com.recruitiva.demo.model;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 public class OrderData {
 
-    @NotNull
-    @Size(min = 1, max = 255)
     String clientEmail;
 
-    @NotNull
-    @Size(min = 1, max = 255)
     String address;
 
     public String getClientEmail() {
