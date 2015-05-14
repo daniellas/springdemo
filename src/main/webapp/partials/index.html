@@ -2,6 +2,17 @@
     <h1>Nasze towary</h1>
 </div>
 <div class="row">
+    <div class="col-md-12">
+        <form novalidate class="form-inline">
+            <div class="form-group">
+                <label class="control-label">Podaj nazwę towaru: </label> <input placeholder="Podaj nazwę" id="search"
+                    class="form-control" ng-model="search" required btr-validation>
+                <button class="btn btn-default" ng-click="searchArticle(search)">Szukaj</button>
+            </div>
+        </form>
+    </div>
+</div>
+<div class="row">
     <div class="col-md-12" ng-if="articles.length==0">
         <alert type="warning">Brak towarów</alert>
     </div>

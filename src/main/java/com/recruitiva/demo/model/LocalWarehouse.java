@@ -44,4 +44,9 @@ public class LocalWarehouse implements Warehouse {
         return articleRepo.save(article);
     }
 
+    @Override
+    public List<Article> search(String name) {
+        return articleRepo.search(name);
+    }
+
 }

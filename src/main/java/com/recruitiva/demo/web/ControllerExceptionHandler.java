@@ -8,9 +8,7 @@ import javax.validation.ConstraintViolationException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
-import org.springframework.mail.MailSendException;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,18 +33,6 @@ public class ControllerExceptionHandler {
     @ResponseStatus(HttpStatus.FORBIDDEN)
     public void accessException(HttpServletResponse resp) {
         resp.setHeader("X-ErrMsg", "Access denied");
-    }
-
-    @ExceptionHandler(value = DataIntegrityViolationException.class)
-    @ResponseStatus(HttpStatus.CONFLICT)
-    public void dataIntegrityException(HttpServletResponse resp) {
-        resp.setHeader("X-ErrMsg", "Pozycja istnieje");
-    }
-
-    @ExceptionHandler(value = MailSendException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public void mailSendException(MailSendException e, HttpServletResponse resp) {
-        resp.setHeader("X-ErrMsg", e.getMessage());
     }
 
 }

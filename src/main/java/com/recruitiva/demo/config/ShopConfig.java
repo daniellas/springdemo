@@ -139,4 +139,5 @@ public class ShopConfig {
 
         return sender;
     }
+
 }

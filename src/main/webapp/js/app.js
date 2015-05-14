@@ -8,6 +8,10 @@ app.factory('ArticleSrv', function($resource) {
     return $resource('articles');
 });
 
+app.factory('SearchSrv', function($resource) {
+    return $resource('articles/search');
+});
+
 app.factory('CartSrv', function($resource) {
     return $resource('cart');
 });
@@ -46,7 +50,7 @@ app.controller('RoutingCtrl', function($rootScope) {
     $rootScope.$broadcast('route.update');
 });
 
-app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, CartSrv, SecuritySrv, OrderSrv) {
+app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, CartSrv, SecuritySrv, OrderSrv, SearchSrv) {
 
     SecuritySrv.get(function(response) {
         $scope.currentUser = response;
@@ -124,6 +128,16 @@ app.controller('AppCtrl', function($scope, $location, CategorySrv, ArticleSrv, C
         OrderSrv.save(order, function(response) {
             $scope.cartInfo = response;
             alert('Twoje zamówienie zostało przyjęte');
+        }, function(response) {
+            showError(response);
+        });
+    }
+
+    $scope.searchArticle = function(name) {
+        SearchSrv.query({
+            name : name
+        }, function(response) {
+            $scope.articles = response;
         }, function(response) {
             showError(response);
         });

@@ -28,6 +28,11 @@ public class ArticleController {
         return localWarehouse.articles();
     }
 
+    @RequestMapping(value = "/search", method = RequestMethod.GET)
+    List<Article> search(@RequestParam String name) {
+        return localWarehouse.search(name);
+    }
+
     @RequestMapping(method = RequestMethod.POST)
     Article save(@RequestBody Article article) {
         return localWarehouse.saveArticle(article);
