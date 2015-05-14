@@ -3,27 +3,20 @@ package com.recruitiva.demo.model;
 import java.math.BigDecimal;
 import java.util.Map;
 
-import javax.annotation.PostConstruct;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
 
 import com.recruitiva.demo.entity.Article;
 import com.recruitiva.demo.repository.ArticleRepository;
 
-@Service
 public class DefaultCart implements Cart {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultCart.class);
 
     CartContent content = new CartContent();
 
-    @Autowired
     ArticleRepository articleRepo;
 
-    @PostConstruct
     public void init() {
         LOGGER.info("Initializing Cart");
     }

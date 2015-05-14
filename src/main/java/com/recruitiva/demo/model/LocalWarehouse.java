@@ -2,21 +2,15 @@ package com.recruitiva.demo.model;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.recruitiva.demo.entity.Article;
 import com.recruitiva.demo.entity.Category;
 import com.recruitiva.demo.repository.ArticleRepository;
 import com.recruitiva.demo.repository.CategoryRepository;
 
-@Service
 public class LocalWarehouse implements Warehouse {
 
-    @Autowired
     CategoryRepository categoryRepo;
 
-    @Autowired
     ArticleRepository articleRepo;
 
     @Override

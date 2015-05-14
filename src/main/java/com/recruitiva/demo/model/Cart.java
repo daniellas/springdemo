@@ -1,10 +1,7 @@
 package com.recruitiva.demo.model;
 
-import org.springframework.transaction.annotation.Transactional;
-
 import com.recruitiva.demo.entity.Article;
 
-@Transactional
 public interface Cart {
 
     CartContent getContent();

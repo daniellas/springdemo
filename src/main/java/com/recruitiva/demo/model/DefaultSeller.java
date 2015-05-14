@@ -3,23 +3,18 @@ package com.recruitiva.demo.model;
 import java.util.Date;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.domain.Sort.Order;
-import org.springframework.stereotype.Service;
 
 import com.recruitiva.demo.entity.OrderItem;
 import com.recruitiva.demo.entity.ShopOrder;
 import com.recruitiva.demo.repository.OrderRepository;
 
-@Service
 public class DefaultSeller implements Seller {
 
-    @Autowired
     Cart cart;
 
-    @Autowired
     OrderRepository orderRepo;
 
     @Override
