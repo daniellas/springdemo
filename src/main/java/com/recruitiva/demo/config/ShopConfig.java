@@ -5,6 +5,8 @@ import java.util.Properties;
 import javax.sql.DataSource;
 import javax.validation.ValidatorFactory;
 
+import liquibase.integration.spring.SpringLiquibase;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -103,6 +105,16 @@ public class ShopConfig {
         MethodValidationPostProcessor bean = new MethodValidationPostProcessor();
 
         bean.setValidatorFactory(validatorFactory());
+
+        return bean;
+    }
+
+    @Bean
+    public SpringLiquibase liquibase() {
+        SpringLiquibase bean = new SpringLiquibase();
+
+        bean.setDataSource(dataSource());
+        bean.setChangeLog("classpath:db-changelog.xml");
 
         return bean;
     }
