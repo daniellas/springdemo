@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.0.xsd
+ http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+
+    <changeSet author="Daniel Łaś" id="catalog">
+        <sql>
+            insert into Category (id,name) values (1,'Buty');
+            insert into Article (name,price,category_id) values ('Sandały',100.00,1);
+            insert into Article (name,price,category_id) values ('Trampki',150.00,1);
+        </sql>
+    </changeSet>
+</databaseChangeLog>

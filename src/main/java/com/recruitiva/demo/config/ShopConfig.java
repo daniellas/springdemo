@@ -2,6 +2,8 @@ package com.recruitiva.demo.config;
 
 import javax.sql.DataSource;
 
+import liquibase.integration.spring.SpringLiquibase;
+
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -55,6 +57,16 @@ public class ShopConfig {
         factoryBean.setJpaVendorAdapter(jpaVendorAdapter());
 
         return factoryBean;
+    }
+    
+    @Bean
+    public SpringLiquibase liquibase() {
+        SpringLiquibase bean = new SpringLiquibase();
+
+        bean.setDataSource(dataSource());
+        bean.setChangeLog("classpath:db-changelog.xml");
+
+        return bean;
     }
 
 }
