@@ -26,10 +26,12 @@
         <div class="col-md-12">
             <form novalidate>
                 <div class="form-group">
-                    <label class="control-label">Adres e-mail</label> <input class="form-control" ng-model="order.clientEmail" btr-validation required id="email">
+                    <label class="control-label">Adres e-mail</label> <input class="form-control"
+                        ng-model="order.clientEmail">
                 </div>
                 <div class="form-group">
-                    <label class="control-label">Adres dostawy</label> <input class="form-control" ng-model="order.address" btr-validation required id="address">
+                    <label class="control-label">Adres dostawy</label> <input class="form-control"
+                        ng-model="order.address">
                 </div>
             </form>
             <button class="btn btn-success btn-lg" ng-click="acceptOrder(order)">Zamawiam</button>
